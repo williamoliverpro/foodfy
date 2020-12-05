@@ -20,3 +20,14 @@ for (let [index, button] of buttons.entries()) {
 
     })
 }
+
+// ADMIN
+
+const buttonsAdmin = document.querySelectorAll(".card-button-admin a")
+
+for (let [index, button] of buttonsAdmin.entries()) {
+    console.log(button)
+    button.addEventListener("click", function() {
+        button.href = `/admin/recipes/${index}`
+    })
+}

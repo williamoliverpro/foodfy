@@ -298,3 +298,190 @@ footer {
     bottom: 0;
     text-align: center;
 }
+
+/* === ADMIN === */
+
+.admin_header {
+    display: block;
+    background-color: #111111;
+    width: 100%;
+    max-width: none;
+    height: 40px;
+    margin: 0 0 36px;
+    position: relative;
+}
+
+.admin_header div {
+    max-width: 940px;
+    margin: 0 auto;
+}
+
+.menu {
+    max-width: 940px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.menu h1 {
+    display: inline-block;
+    font-size: 24px;
+    line-height: 28px;
+    color: #111111;
+}
+
+.menu a {
+    right: 0;
+    position: absolute;
+    text-decoration: none;
+    background-color: #6558C3;
+    color: #FFFFFF;
+    width: 136px;
+    height: 37px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    position: absolute;
+}
+
+/* === ADMIN CREATE === */
+
+.item {
+    margin: 30px auto;
+}
+
+.item div:first-child {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 19px;
+    color: #111111;
+    margin-bottom: 10px;
+}
+
+.item input {
+    width: 100%;
+    height: 35px;
+    font-size: 16px;
+    line-height: 19px;
+    outline: none;
+    border: 1px solid #DDDDDD;
+    padding-left: 20px;
+}
+
+.item:last-of-type input {
+    height: 257px;
+}
+
+.add-ingredient,
+.add-step {
+    font-size: 16px;
+    line-height: 19px;
+    color: #6558C3;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    font-weight: bold;
+}
+
+.ingredient,
+.step {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.create-button {
+    max-width: 940px;
+    margin: 0 auto;
+}
+
+.button_delete,
+.submit-button,
+.create-button a {
+    font-size: 14px;
+    background-color: #6558C3;
+    color: white;
+    padding: 8px 8px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.cards-admin {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 0;
+}
+
+.card-admin {
+    display: grid;
+    grid-template-columns: 172px auto;
+    max-width: 470px;
+}
+
+.card_image-admin {
+    height: 80px;
+    width: 172px;
+}
+
+.card_image-admin img {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 8.57px;
+}
+
+.card_info-admin {
+    margin-left: 20px;
+}
+
+.title-index {
+    max-width: 940px;
+    margin: 50px auto 30px;
+}
+
+.title-index h1 {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: bold;
+    color: #111111;
+}
+
+.card_title-admin {
+    color: #111111;
+    font-size: 18px;
+    line-height: 21px;
+    margin-bottom: 5px;
+}
+
+.card_author-admin {
+    font-size: 14px;
+    line-height: 16px;
+    color: #777777;
+    margin-bottom: 10px;
+}
+
+.card-button-admin a {
+    font-size: 14px;
+    line-height: 16px;
+    color: #6558C3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.button_delete,
+.submit-button {
+    border: none;
+    position: absolute;
+    max-height: 37px;
+}
+
+.submit-button {
+    top: 0;
+    right: 0;
+}
+
+.button_delete {
+    background-color: #DC4747;
+    top: 0;
+    right: 70px
+}
