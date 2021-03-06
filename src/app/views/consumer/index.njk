@@ -14,16 +14,19 @@
     <h3 id="most_accessed">Mais acessadas</h3>
 
     <section class="cards">
-        {% for item in items %}
-            <div class="card">
-                <div class="card_image">
-                    <img src="{{ item.image }}" alt="Burger image">
+        {% for recipe in recipes %}
+        <a href="/recipes/{{recipe.id}}">
+                <div class="card" >
+                    <div class="card_image">
+                        <img src="{{ recipe.image }}" alt="Burger image">
+                    </div>
+                    <div class="card_info">
+                        <p class="card_title">{{ recipe.title }}</p>
+                        <p class="card_author">by
+                            {{ recipe.chef_name }}</p>
+                    </div>
                 </div>
-                <div class="card_info">
-                    <p class="card_title">{{ item.title }}</p>
-                    <p class="card_author">by {{ item.author }}</p>
-                </div>
-            </div>
+        </a>
         {% endfor %}
     </section>
 

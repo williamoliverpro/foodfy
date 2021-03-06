@@ -1,0 +1,24 @@
+{% extends "consumer/layout.njk" %}
+
+{% block head %}
+    <title>Recipes - Foodfy</title>
+{% endblock head %}
+
+{% block content %}
+    <section class="cards-admin chef">
+        {% for chef in chefs %}
+            <div class="card-admin">
+                <div class="card_image-admin">
+                    <img src="{{ chef.avatar_url }}" alt="{{ chef.name }} image">
+                </div>
+                <div class="card_info-admin">
+                    <p class="card_title-admin">{{ chef.name }}</p>
+                    <p class="total_recipes">{{ chef.total_recipes }} recipes</p>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+    </section>
+
+    <script src="/scripts.js"></script>
+{% endblock content %}

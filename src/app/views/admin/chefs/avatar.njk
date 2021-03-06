@@ -1,0 +1,51 @@
+<script>
+    const PhotosUpload = {
+    input: "",
+    uploadLimit: 1,
+    files: [],
+    handleFileInput(event) {
+        const { files: fileList } = event.target
+        PhotosUpload.input = event.target
+
+        PhotosUpload.removePhoto(event)
+
+        if (PhotosUpload.hasLimit(event)) return
+        
+        Array.from(fileList).forEach(file => {
+            
+            PhotosUpload.files.push(file) 
+            
+            const reader = new FileReader()
+
+            reader.readAsDataURL(file)
+        })
+
+        PhotosUpload.input.files = PhotosUpload.getAllFiles()
+    },
+    hasLimit(event) {
+        const { uploadLimit, input } = PhotosUpload
+        const { files: fileList } = input
+
+        if (fileList.length > uploadLimit) {
+            alert(`Envie no máximo ${uploadLimit} foto`)
+            event.preventDefault()
+            return true
+        }
+
+        return false
+    },
+    getAllFiles() {
+        const dataTransfer = new ClipboardEvent("").clipboardData || new DataTransfer()
+
+        PhotosUpload.files.forEach(file => dataTransfer.items.add(file))
+
+        return dataTransfer.files
+    },
+    removePhoto(event) {
+        const index = 0
+
+        PhotosUpload.files.splice(index, 1)
+        PhotosUpload.input.files = PhotosUpload.getAllFiles()
+    }
+}
+</script>

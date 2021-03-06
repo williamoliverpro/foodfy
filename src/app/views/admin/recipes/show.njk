@@ -1,0 +1,89 @@
+{% extends "admin/layout.njk" %}
+
+{% block head %}
+    <title>{{recipe.title}}
+        - Foodfy</title>
+{% endblock head %}
+
+{% block content %}
+    <div class="menu">
+        <h1>Recipe: {{ recipe.title }}</h1>
+        <a class="link_edit" href="/admin/recipes/{{ recipe.id }}/edit">Edit Recipe</a>
+    </div>
+    <div class="recipe_image">
+        <img 
+            id="highlight" 
+            src="{{ recipe.images[0].src }}" 
+            alt="{{ recipe.title }} image"
+            onclick="Lightbox.open()"
+        >
+        <div class="lightbox-target">
+            <img 
+                src="{{ recipe.images[0].src }}" 
+                alt="{{ recipe.name }}"
+            >
+            <a 
+                href="#"
+                class="lightbox-close"
+                onclick="Lightbox.close()"
+            >
+                <i class="material-icons">close</i>
+            </a>
+        </div>
+        <div class="gallery-preview">
+            {% for image in recipe.images %}
+                <img 
+                    src="{{ image.src }}" 
+                    alt="{{ recipe.title }}" 
+                    {% if loop.index0 == 0 %}
+                    class="active"
+                    {% endif %}
+                    onclick="ImageGallery.setImage(event)">
+            {% endfor %}
+        </div>
+    </div>
+    <div class="recipe_info">
+        <p id="recipe_title">{{ recipe.title }}</p>
+        <p id="recipe_author">by
+            {{ recipe.chef_name }}</p>
+    </div>
+
+    <div class="details">
+        <div class="detail_container">
+            <div class="detail_title">
+                <h1>Ingredients</h1>
+                <a href="#" class="buttons">Hide</a>
+            </div>
+            <ul>
+                {% for ingredient in recipe.ingredients %}
+                    <li>{{ingredient}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="detail_container">
+            <div class="detail_title">
+                <h1>Preparation mode</h1>
+                <a href="#" class="buttons">Hide</a>
+            </div>
+            <ul>
+                {% for step in recipe.preparation %}
+                    <li>{{step}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="detail_container">
+            <div class="detail_title">
+                <h1>Additional Information</h1>
+                <a href="#" class="buttons">Hide</a>
+            </div>
+            <ul>
+                {{ recipe.information }}
+            </ul>
+        </div>
+
+        <script src="/scripts.js"></script>
+
+    </div>
+{% endblock content %}

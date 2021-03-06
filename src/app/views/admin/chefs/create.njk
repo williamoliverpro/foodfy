@@ -1,0 +1,12 @@
+{% extends "admin/layout.njk"%}
+
+{% block content %}
+    <div class="menu">
+        <div class="title">
+            <h1>Creating chef</h1>
+        </div>
+        <form action="/admin/chefs" method="POST" enctype="multipart/form-data">
+            {% include "admin/chefs/fields.njk" %}
+        </form>
+    </div>
+{% endblock content %}

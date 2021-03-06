@@ -1,0 +1,35 @@
+{% extends "consumer/layout.njk" %}
+
+{% block head %}
+    <title>Recipes - Foodfy</title>
+{% endblock head %}
+
+{% block content %}
+    <div class="container_results">Searching for “{{ filter }}”</div>
+    <section class="cards">
+        {% for recipe in recipes %}
+            <a href="/recipes/{{recipe.id}}">
+                <div class="card">
+                    <div class="card_image">
+                        <img src="{{ recipe.image }}" alt="Burger image">
+                    </div>
+                    <div class="card_info">
+                        <p class="card_title">{{ recipe.title }}</p>
+                        <p class="card_author">by
+                            {{ recipe.chef_name }}</p>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </section>
+
+    <div 
+        class="pagination" 
+        data-page={{pagination.page}}
+        data-total={{pagination.total}}
+        data-filter={{filter}}
+    >
+    </div>
+
+    <script src="/scripts.js"></script>
+{% endblock content %}

@@ -5,14 +5,15 @@
         <div class="title">
             <h1>Editing recipe</h1>
         </div>
-        <form action="/admin/recipes?_method=PUT" method="POST">
-            <input type="hidden" name="id" value="{{item.id}}">
+        <form action="/admin/recipes?_method=PUT" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{{recipe.id}}">
 
-            {% include "admin/fields.njk" %}
+            {% include "admin/recipes/fields.njk" %}
         </form>
         <form action="/admin/recipes?_method=DELETE" method="POST">
-            <input type="hidden" name="id" value="{{item.id}}">
+            <input type="hidden" name="id" value="{{recipe.id}}">
             <button class="button_delete" type="submit">Delete</button>
         </form>
     </div>
+    <script src="/scripts.js"></script>
 {% endblock content %}

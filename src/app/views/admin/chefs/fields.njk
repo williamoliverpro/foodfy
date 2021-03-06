@@ -1,0 +1,17 @@
+<div class="item">
+    <div>Name</div>
+    <input type="text" name="name" value="{{ chef.name }}">
+</div>
+
+<div class="item">
+    <div>Avatar</div>
+    <div id="photos-upload">
+        <input id="photos-input" type="file" name="photos" multiple="multiple" accept="image/*" onchange="PhotosUpload.handleFileInput(event)">
+        <p>Enviar Avatar</p>
+    </div>
+    <input type="hidden" id="{{ file.id }}" name="old_avatar" value="{{ file.id }}">
+</div>
+
+<button class="submit-button" type="submit">Submit chef</button>
+
+{% include "admin/chefs/avatar.njk" %}

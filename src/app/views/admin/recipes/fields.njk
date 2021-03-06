@@ -1,0 +1,84 @@
+<div class="item">
+    <div>Title</div>
+    <input type="text" name="title" value="{{ recipe.title }}">
+</div>
+
+<div class="item">
+    <div>Images</div>
+    <div id="photos-container">
+        <div id="photos-upload" class="recipes">
+                <input 
+                id="photos-input"
+                type="file" 
+                name="photos" 
+                multiple
+                accept="image/*"
+                onchange="PhotosUpload.handleFileInput(event)"
+            >
+            <p class="recipe_images">
+                <i class="material-icons">add</i>
+            </p>
+        </div>
+
+        <div id="photos-preview">
+            {% if recipe.images %}
+                {% for image in recipe.images %}
+                    <div class="photo" id="{{image.file_id}}">
+                        <img src="{{image.src}}" alt="{{recipe.name}}">
+                        <i class="material-icons"
+                            onclick="PhotosUpload.removeOldPhoto(event)"
+                        >close</i>
+                    </div>
+                {% endfor %}
+                <input type="hidden" name="removed_files">
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="item">
+    <div>Chef</div>
+    
+    <select name="chef_id">
+        {% for chef in chefsOptions %}
+            <option value="{{chef.id}}" {% if recipe.chef_id == chef.id %} selected="selected" {% endif %}>
+                {{chef.name}}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="item" id="ingredients">
+    <div>Ingredients</div>
+    {% for ingredient in recipe.ingredients %}
+        <div class="ingredient">
+            <input type="text" name="ingredients[]" value="{{ingredient}}"/>
+        </div>
+    {% endfor %}
+    <div class="ingredient">
+        <input type="text" name="ingredients[]"/>
+    </div>
+</div>
+<button type="button" class="add-ingredient">Add Ingredient</button>
+
+<div class="item" id="steps">
+    <div>Preparation</div>
+    {% for prep in recipe.preparation %}
+        <div class="step">
+            <input type="text" name="preparation[]" value="{{ prep }}"/>
+        </div>
+    {% endfor %}
+    <div class="step">
+        <input type="text" name="preparation[]"/>
+    </div>
+</div>
+<button type="button" class="add-step">Add Step</button>
+
+<div class="item">
+    <div>Additional Information</div>
+    <input type="text" name="information" value="{{recipe.information}}">
+</div>
+
+<button class="submit-button" type="submit">Submit</button>
+
+{% include "admin/recipes/additem.njk" %}
