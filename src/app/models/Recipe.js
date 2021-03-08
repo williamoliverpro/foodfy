@@ -5,7 +5,7 @@ module.exports = {
     async all() {
         let results = await db.query(`SELECT recipes.*, chefs.name as chef_name
         FROM recipes LEFT JOIN chefs ON (chefs.id = recipes.chef_id) 
-        ORDER BY title ASC`)
+        ORDER BY created_at DESC`)
 
         return results.rows
     },
@@ -88,6 +88,7 @@ module.exports = {
             FROM recipes
             LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
             ${filterQuery}
+            ORDER BY updated_at DESC
             LIMIT $1 OFFSET $2
         `
 

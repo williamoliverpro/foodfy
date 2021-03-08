@@ -111,14 +111,12 @@ module.exports = {
             callback(results.rows)
         })
     },
-    chefRecipes(id, callback) {
-        db.query(`SELECT recipes.*, chefs.name as chef_name
+    async chefRecipes(id) {
+        let results = await db.query(`SELECT recipes.*, chefs.name as chef_name
         FROM recipes LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
-        WHERE recipes.chef_id = $1`, [id], function (err, results) {
-            if (err) throw `Database error ${err}`
+        WHERE recipes.chef_id = $1`, [id])
 
-            callback(results.rows)
-        })
+        return results.rows
     },
     async files(id) {
         const results = await db.query(`
@@ -126,5 +124,12 @@ module.exports = {
         `, [id])
 
         return results.rows[0]
+    },
+    async allFiles() {
+        const results = await db.query(`SELECT files.*
+        FROM files JOIN chefs on (chefs.file_id = files.id)
+        GROUP BY files.id`)
+
+        return results.rows
     }
 }

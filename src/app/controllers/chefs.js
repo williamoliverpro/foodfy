@@ -31,10 +31,9 @@ module.exports = {
             src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
         }
 
-        Chef.chefRecipes(chef.id, function (recipes) {
-
-            return res.render("admin/chefs/show", { chef, recipes, avatar_url })
-        })
+        results = await Chef.chefRecipes(chef.id)
+        
+        return res.render("admin/chefs/show", { chef, recipes: results, avatar_url })
     },
     async edit(req, res) {
         let chef = await Chef.find(req.params.id)
