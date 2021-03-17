@@ -1,0 +1,15 @@
+{% extends "admin/layout.njk" %}
+{% block head %}
+    <title>User - Foodfy</title>
+{% endblock head %}
+{% block content %}
+    <div class="menu">
+        <div class="title">
+            <h1>Creating user</h1>
+        </div>
+        <form class="form_users" action="/admin/users" method="POST">
+            {% include "admin/user/fields.njk" %}
+        </form>
+        <a class="cancel_button" href="/admin/users">Cancel</a>
+    </div>
+{% endblock content %}

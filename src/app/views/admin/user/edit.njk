@@ -1,0 +1,19 @@
+{% extends "admin/layout.njk"%}
+
+{% block content %}
+    <div class="menu">
+        <div class="title">
+            <h1>Update User</h1>
+        </div>
+        <form class="form_users" action="/admin/users/{{user.id}}?_method=PUT"" method="POST">
+            <input type="hidden" name="id" value="{{user.id}}">
+
+            {% include "admin/user/fields.njk" %}
+        </form>
+
+        <form action="/admin/users/{{user.id}}?_method=DELETE" method="POST">
+            <input type="hidden" name="id" value="{{user.id}}">
+            <button class="button_delete users" type="submit">Delete</button>
+        </form>
+    </div>
+{% endblock content %}

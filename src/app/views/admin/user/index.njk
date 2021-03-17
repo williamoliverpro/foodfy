@@ -1,0 +1,27 @@
+{% extends "admin/layout.njk"%}
+{% block content %}
+    <div class="menu">
+        <div class="title index_users">
+            <h1>Users</h1>
+            <a href="/admin/users/create">New</a>
+        </div>
+
+        <section class="users">
+            {% for user in users %}
+                <div class="user">
+                    <div class="user_name">{{user.name}}</div>
+                    <div class="user_email">{{user.email}}</div>
+                    <div class="user_options">
+                        <a href="/admin/users/{{user.id}}/edit">Edit</a>
+                        <form action="/admin/users/{{user.id}}?_method=DELETE" method="POST">
+                            <input type="hidden" name="id" value="{{user.id}}">
+                            <button class="button_delete" type="submit">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+    </div>
+
+    <script src="/scripts.js"></script>
+{% endblock content %}

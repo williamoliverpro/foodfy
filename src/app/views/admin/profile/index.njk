@@ -1,0 +1,34 @@
+{% extends "admin/layout.njk" %}
+{% block head %}
+    <title>Profile - Foodfy</title>
+{% endblock head %}
+{% block content %}
+    <div class="menu">
+        <div class="title">
+            <h1>Welcome {{ user.name }}</h1>
+        </div>
+        
+        <form class="form_users" action="/admin/profile?_method=PUT" method="POST">
+            <input type="hidden" name="id" value="{{user.id}}">
+
+            <div class="item_users">
+                <div>Name</div>
+                <input type="text" name="name" value="{{ user.name }}" placeholder="Digite o nome">
+            </div>
+
+            <div class="item_users">
+                <div>Email</div>
+                <input type="email" name="email" value="{{ user.email }}"             onblur="Validate.apply(this, 'isEmail')" placeholder="Digite o email">
+            </div>
+
+            <div class="item_users">
+                <div>Password</div>
+                <input type="password" name="password" placeholder="Digite a senha">
+            </div>
+
+            <button class="submit-button profile" type="submit">Save</button>
+        </form>
+    </div>
+
+    <script src="/scripts.js"></script>
+{% endblock content %}

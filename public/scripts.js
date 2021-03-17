@@ -218,3 +218,41 @@ const Lightbox = {
         Lightbox.closeButton.style.top = "-80px"
     }
 }
+
+const Validate = {
+    apply(input, func) {
+        Validate.clearErrors(input)
+
+
+        let results = Validate[func](input.value)
+        input.value = results.value
+
+        if (results.error)
+            Validate.displayError(input, results.error)
+
+    },
+    displayError(input, error) {
+        input.classList.add('input_error')
+        input.focus()
+    },
+    clearErrors(input) {
+        if (input.classList.contains('input_error')) {
+            input.classList.remove('input_error')
+        }
+    },
+    isEmail(value) {
+        let error = null
+
+        const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+        if (!value.match(mailFormat)) {
+            error = "Email inválido"
+        }
+
+
+        return {
+            error,
+            value
+        }
+    }
+}

@@ -3,7 +3,7 @@ const File = require("../models/File")
 
 module.exports = {
     async index(req, res) {
-        let recipes = await Recipe.all()
+        let recipes = await Recipe.allFromUser(req.session.userId)
         let files = await Recipe.files()
         let recipesFiltered = []
 
@@ -85,7 +85,10 @@ module.exports = {
 
         for (let key of keys) {
             if (req.body[key] == "") {
-                return res.send("Please complete all fields")
+                return res.render('admin/recipes/create', {
+                    recipe: req.body,
+                    error: 'Complete all fields'
+                })
             }
         }
 
@@ -93,7 +96,7 @@ module.exports = {
             return res.send("Please, send at least one image")
         }
 
-        let results = await Recipe.create(req.body)
+        let results = await Recipe.create(req.body, req.session.userId)
 
         recipe_id = results.id
 

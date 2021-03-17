@@ -40,7 +40,7 @@ module.exports = {
         let chefs = await Chef.all()
         let files = await Chef.allFiles()
 
-        chefs = await chefs.map (chef => {
+        chefs = await chefs.map(chef => {
             files.forEach(file => {
                 if (file.id == chef.file_id && !chef.avatar_url) {
                     chef.avatar_url = (`${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`)
@@ -64,13 +64,13 @@ module.exports = {
                 recipe.image = (`${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`)
             }
         })
-        
+
         return res.render("consumer/show", { recipe })
     },
     about(req, res) {
         return res.render("consumer/about")
     },
-    search(req, res) {
+    async search(req, res) {
         let { filter, page, limit } = req.query
 
         page = page || 1
@@ -81,25 +81,20 @@ module.exports = {
             filter,
             page,
             limit,
-            offset,
-            callback(recipes) {
-
-                if (recipes == "") {
-                    return res.send("Recipes not found")
-                }
-
-                const pagination = {
-                    total: Math.ceil(recipes[0].total / limit),
-                    page
-                }
-
-                return res.render("consumer/results", {
-                    recipes,
-                    pagination, filter
-                })
-            }
+            offset
         }
 
-        Recipe.paginate(params)
+        let recipes = await Recipe.paginate(params)
+
+        if (recipes == "") {
+            return res.send("Recipes not found")
+        }
+
+        const pagination = {
+            total: Math.ceil(recipes[0].total / limit),
+            page
+        }
+
+        return res.render("consumer/results", { recipes, pagination, filter })
     }
 }

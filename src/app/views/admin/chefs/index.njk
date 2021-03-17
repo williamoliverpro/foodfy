@@ -5,11 +5,9 @@
 {% endblock head %}
 
 {% block content %}
-    <div class="create-button">
-        <a href="/admin/chefs/create">Create</a>
-    </div>
     <div class="title-index">
         <h1>Manage chefs</h1>
+        <a href="/admin/chefs/create">Create</a>
     </div>
     <section class="cards-admin chef">
         {% for chef in chefs %}

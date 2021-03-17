@@ -4,6 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/styles/messages.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         {% block head %}
             <title>Foodfy</title>
@@ -19,10 +20,22 @@
                 <div>
                     <a class="links admin" href="/admin/recipes">Recipes</a>
                     <a class="links admin" href="/admin/chefs">Chefs</a>
+                    <a class="links admin" href="/admin/users">Users</a>
+                </div>
+
+                <div>
+                    <a class="links admin" href="/admin/profile">My account</a>
+                    <form action="/logout" method="POST">
+                        <button class="button-logout">Logout</button>
+                    </form>
+
                 </div>
             </div>
         </header>
 
         {% block content %}{% endblock content %}
+        {% include "parts/messages.njk" %}
+
+        <script src="/scripts.js"></script>
     </body>
 </html>

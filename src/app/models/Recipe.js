@@ -9,7 +9,20 @@ module.exports = {
 
         return results.rows
     },
-    async create(data) {
+    async allFromUser(id) {
+        try {
+            let results = await db.query(`SELECT recipes.*, chefs.name as chef_name
+            FROM recipes LEFT JOIN chefs ON (chefs.id = recipes.chef_id) 
+            WHERE user_id = $1
+            ORDER BY created_at DESC`, [id])
+
+            return results.rows
+        } catch(err) {
+            console.log(err)
+        }
+
+    },
+    async create(data, user_id) {
         const query = `
         INSERT INTO recipes(
             chef_id,
@@ -17,8 +30,9 @@ module.exports = {
             ingredients,
             preparation,
             information,
-            created_at
-        ) VALUES ($1, $2, $3, $4, $5, $6)
+            created_at,
+            user_id
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING id
         `
 
@@ -28,7 +42,8 @@ module.exports = {
             listRemove(data.ingredients),
             listRemove(data.preparation),
             data.information,
-            date(Date.now()).iso
+            date(Date.now()).iso,
+            user_id
         ]
 
         let results = await db.query(query, values)
@@ -72,8 +87,8 @@ module.exports = {
 
         return results.rows
     },
-    paginate(params) {
-        const { filter, limit, offset, callback } = params
+    async paginate(params) {
+        const { filter, limit, offset } = params
 
         let query = "",
             filterQuery = ""
@@ -92,11 +107,9 @@ module.exports = {
             LIMIT $1 OFFSET $2
         `
 
-        db.query(query, [limit, offset], function (err, results) {
-            if (err) throw `Database error ${err}`
+        let results = await db.query(query, [limit, offset])
 
-            callback(results.rows)
-        })
+        return results.rows
     },
     async recipe_files(recipe_id, file_id) {
         const query = `

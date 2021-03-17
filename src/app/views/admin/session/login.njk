@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/styles/session.css">
+        <link rel="stylesheet" href="/styles/messages.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+        <title>Login - Foodfy</title>
+    </head>
+
+    <body>
+
+        <header>
+            <img src="/assets/logo.png" alt="Foodfy log">
+
+            <h1>Start Session</h1>
+        </header>
+
+
+        <form method="POST" action="/login">
+
+            <div class="fields">
+                {% include 'admin/session/fields.njk' %}
+            </div>
+
+            <div class="buttons">
+                <button class="button" type="submit">Access</button>
+
+                <footer>
+                    <a href="/forgot-password">Lost your password?</a>
+                </footer>
+            </div>
+        </form>
+        {% include "parts/messages.njk" %}
+        
+        <script src="/scripts.js"></script>
+    </body>
+</html>
