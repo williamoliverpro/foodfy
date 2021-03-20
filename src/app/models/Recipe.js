@@ -1,4 +1,3 @@
-const { date, listRemove } = require("../../lib/utils")
 const db = require("../../config/db")
 
 module.exports = {
@@ -22,7 +21,7 @@ module.exports = {
         }
 
     },
-    async create(data, user_id) {
+    async create(data) {
         const query = `
         INSERT INTO recipes(
             chef_id,
@@ -39,16 +38,16 @@ module.exports = {
         const values = [
             data.chef_id,
             data.title,
-            listRemove(data.ingredients),
-            listRemove(data.preparation),
+            data.ingredients,
+            data.preparation,
             data.information,
-            date(Date.now()).iso,
-            user_id
+            data.created_at,
+            data.user_id
         ]
 
         let results = await db.query(query, values)
 
-        return results.rows[0]
+        return results.rows[0].id
     },
     async find(id) {
         let results = await db.query(`SELECT recipes.*, chefs.name as chef_name
@@ -71,22 +70,22 @@ module.exports = {
         const values = [
             data.chef_id,
             data.title,
-            listRemove(data.ingredients),
-            listRemove(data.preparation),
+            data.ingredients,
+            data.preparation,
             data.information,
             data.id
         ]
 
         db.query(query, values)
     },
-    delete(id, callback) {
+    delete(id) {
         db.query(`DELETE FROM recipes WHERE id = $1`, [id])
     },
-    async chefsOptions() {
-        let results = await db.query(`SELECT id, name FROM chefs`)
+    // async chefsOptions() {
+    //     let results = await db.query(`SELECT id, name FROM chefs`)
 
-        return results.rows
-    },
+    //     return results.rows
+    // },
     async paginate(params) {
         const { filter, limit, offset } = params
 

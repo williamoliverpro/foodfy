@@ -13,7 +13,7 @@ async function onlyAdmin(req, res, next) {
         return res.redirect('/login')
     }
 
-    let user = await User.findOne(req.session.userId)
+    let user = await User.find(req.session.userId)
 
     if (user.is_admin == false) {
         return res.redirect('/admin/profile')

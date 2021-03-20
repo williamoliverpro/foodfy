@@ -1,5 +1,22 @@
 const Recipe = require("../models/Recipe")
+const Chef = require("../models/Chef")
+const User = require("../models/User")
 const File = require("../models/File")
+const { date, listRemove } = require("../../lib/utils")
+
+function checkAllFields(body, chefsOptions) {
+    const keys = Object.keys(body)
+
+    for(key of keys) {
+        if (body[key] == "") {
+            return {
+                recipe: body,
+                chefsOptions,
+                error: 'Por favor, preencha todos os campos.'
+            }
+        }
+    }
+}
 
 module.exports = {
     async index(req, res) {
@@ -22,22 +39,21 @@ module.exports = {
         return res.render("admin/recipes/index", { recipes: recipesFiltered})
     },
     async create(req, res) {
-        let results = await Recipe.chefsOptions()
+        // let results = await Recipe.chefsOptions()
+        let chefsOptions = await Chef.findAll()
 
-        return res.render("admin/recipes/create", { chefsOptions: results })
+        return res.render("admin/recipes/create", { chefsOptions })
     },
     async show(req, res) {
-        let results = await Recipe.find(req.params.id)
+        let recipe = await Recipe.find(req.params.id)
 
-        if (!results) return res.send("Recipe not found!")
+        if (!recipe) return res.send("Recipe not found!")
 
-        let recipe = results
+        let recipeImages = await Recipe.files()
 
-        results = await Recipe.files()
-
-        let recipeImage = results.filter(image => image.recipe_id == recipe.id)
-
-        recipeImage = recipeImage.map(image => (
+        recipeImages = recipeImages
+        .filter(image => image.recipe_id == recipe.id)
+        .map(image => (
             {
                 ...image,
                 src: `${req.protocol}://${req.headers.host}${image.path.replace("public", "")}`
@@ -46,27 +62,23 @@ module.exports = {
 
         recipe = {
             ...recipe,
-            images: recipeImage
+            images: recipeImages
         }
 
         return res.render("admin/recipes/show", { recipe })
     },
     async edit(req, res) {
-        let results = await Recipe.find(req.params.id)
+        let recipe = await Recipe.find(req.params.id)
 
-        if (!results) return res.send("Recipe not found!")
+        if (!recipe) return res.send("Recipe not found!")
 
-        let recipe = results
+        let chefsOptions = await Chef.findAll()
 
-        results = await Recipe.chefsOptions()
+        let recipeImages = await Recipe.files()
 
-        let chefsOptions = results
-
-        results = await Recipe.files()
-
-        let recipeImage = results.filter(image => image.recipe_id == recipe.id)
-
-        recipeImage = recipeImage.map(image => (
+        recipeImages = recipeImages
+        .filter(image => image.recipe_id == recipe.id)
+        .map(image => (
             {
                 ...image,
                 src: `${req.protocol}://${req.headers.host}${image.path.replace("public", "")}`
@@ -75,49 +87,65 @@ module.exports = {
 
         recipe = {
             ...recipe,
-            images: recipeImage
+            images: recipeImages
         }
 
         return res.render("admin/recipes/edit", { recipe, chefsOptions })
     },
     async post(req, res) {
-        const keys = Object.keys(req.body)
+        const isAdmin = await User.find(req.session.userId)
+        const chefsOptions = await Chef.findAll()
 
-        for (let key of keys) {
-            if (req.body[key] == "") {
-                return res.render('admin/recipes/create', {
-                    recipe: req.body,
-                    error: 'Complete all fields'
-                })
-            }
+        if (isAdmin.is_admin == false) {
+            return res.redirect('/admin/profile')
         }
 
-        if (req.files.length == 0) {
-            return res.send("Please, send at least one image")
+        const fillAllFields = checkAllFields(req.body, chefsOptions)
+
+        if (fillAllFields){
+            return res.render("admin/recipes/create", fillAllFields)
         }
 
-        let results = await Recipe.create(req.body, req.session.userId)
+        if (req.files.length == 0) return res.render('admin/recipes/create', {
+            user: req.body,
+            chefsOptions,
+            error: 'Please, send at least one image'
+        })
 
-        recipe_id = results.id
+        let { chef_id, title, ingredients, preparation, information, created_at, user_id } = req.body
 
-        results = req.files.map(async file => {
-            results = await File.create({ name: file.filename, path: file.path })
-            let file_id = results
+        let recipe = {
+            chef_id, 
+            title, 
+            ingredients: listRemove(ingredients), 
+            preparation: listRemove(preparation), 
+            information, 
+            created_at: date(Date.now()).iso, 
+            user_id: req.session.userId
+        }
 
-            results = await Recipe.recipe_files(recipe_id, file_id)
+        let recipeId = await Recipe.create(recipe)
+
+        let results = req.files.map(async file => {
+            fileId = await File.create({ name: file.filename, path: file.path })
+
+            await Recipe.recipe_files(recipeId, fileId)
         })
 
         await Promise.all(results)
 
-        return res.redirect(`/admin/recipes/${recipe_id}`)
+        return res.redirect(`/admin/recipes/${recipeId}`)
     },
     async put(req, res) {
-        const keys = Object.keys(req.body)
         let results = ""
+        const keys = Object.keys(req.body)
 
         for (let key of keys) {
             if (req.body[key] == "" && req.body.removed_files) {
-                return res.send("Please complete all fields")
+                return res.render('admin/recipes/edit', {
+                    recipe: req.body,
+                    error: "Please complete all fields"
+                })
             }
         }
 
@@ -149,7 +177,18 @@ module.exports = {
             await Promise.all(removedFilesPromise)
         }
 
-        Recipe.update(req.body)
+        let { chef_id, title, ingredients, preparation, information, created_at, user_id, id } = req.body
+
+        let recipe = {
+            chef_id,
+            title,
+            ingredients: listRemove(ingredients),
+            preparation: listRemove(preparation),
+            information,
+            id
+        }
+
+        Recipe.update(recipe)
 
         return res.redirect(`/admin/recipes/${req.body.id}`)
     },

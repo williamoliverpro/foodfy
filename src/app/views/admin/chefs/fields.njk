@@ -12,6 +12,6 @@
     <input type="hidden" id="{{ file.id }}" name="old_avatar" value="{{ file.id }}">
 </div>
 
-<button class="submit-button" type="submit">Submit chef</button>
+<button class="submit-button" type="submit" onclick="Validate.allFields(event)">Submit chef</button>
 
 {% include "admin/chefs/avatar.njk" %}

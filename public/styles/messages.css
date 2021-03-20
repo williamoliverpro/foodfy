@@ -8,6 +8,7 @@
 
 .messages {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 16px;
@@ -31,4 +32,11 @@
 
 .messages.success {
     background: #01B12A;
+}
+
+.messages svg {
+    width: 50px;
+    height: 50px;
+    transform: translate3d(0px, 0px, 0px);
+    margin-top: 15px;
 }

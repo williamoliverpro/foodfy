@@ -3,19 +3,16 @@ const { hash } = require('bcryptjs')
 
 module.exports = {
     async index(req, res) {
-        const user = await User.findOne(req.session.userId)
+        const user = await User.find(req.session.userId)
 
         return res.render('admin/profile/index', { user })
     },
     async put(req, res) {
         if (req.body.password) {
-            let newPassword = await hash(req.body.password, 8)
-
-            req.body.password = newPassword
+            req.body.password = await hash(req.body.password, 8)
         }
 
-        await User.profileUpdate(req.body)
-        console.log(req.body)
+        await User.update(req.body)
 
         let { name, email, id } = req.body
         let user = {

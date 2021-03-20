@@ -1,12 +1,14 @@
 const User = require('../models/User')
+const Chef = require('../models/Chef')
 
-function checkAllFields(body) {
+async function checkAllFields(body, chefsOptions) {
     const keys = Object.keys(body)
 
     for(key of keys) {
         if (body[key] == "") {
             return {
-                user: body,
+                recipe: body,
+                chefsOptions,
                 error: 'Por favor, preencha todos os campos.'
             }
         }
@@ -15,24 +17,21 @@ function checkAllFields(body) {
 
 async function post(req, res, next) {
     const isAdmin = await User.find(req.session.userId)
+    const chefsOptions = await Chef.findAll()
 
     if (isAdmin.is_admin == false) {
         return res.redirect('/admin/profile')
     }
 
-    const fillAllFields = checkAllFields(req.body)
+    const fillAllFields = checkAllFields(req.body, chefsOptions)
 
     if (fillAllFields){
-        return res.render("admin/user/create", fillAllFields)
+        return res.render("admin/recipes/create", fillAllFields)
     }
 
-    let { email } = req.body
-
-    const user = await User.findOne({ where: { email }})
-
-    if (user) return res.render('admin/user/create', {
+    if (req.files.length == 0) return res.render('admin/recipes/create', {
         user: req.body,
-        error: 'Usuário já cadastrado.'
+        error: 'Please, send at least one image'
     })
 
     next()

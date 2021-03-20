@@ -9,7 +9,7 @@ module.exports = {
     },
     async post(req, res) {
 
-        if(!req.body.is_admin) {
+        if (!req.body.is_admin) {
             req.body.is_admin = false
         } else {
             req.body.is_admin = true
@@ -42,7 +42,7 @@ module.exports = {
         })
     },
     async edit(req, res) {
-        let user = await User.findOne(req.params.id)
+        let user = await User.find(req.params.id)
 
         if (!user) {
             return res.render('admin/user/index', {
@@ -53,13 +53,13 @@ module.exports = {
         return res.render('admin/user/edit', { user })
     },
     async put(req, res) {
-        if(!req.body.is_admin) {
+        if (!req.body.is_admin) {
             req.body.is_admin = false
         } else {
             req.body.is_admin = true
         }
 
-        await User.update(req.body, req.params.id)
+        await User.update(req.params.id, req.body)
 
         req.body.id = req.params.id
 
@@ -71,7 +71,7 @@ module.exports = {
     async delete(req, res) {
         await User.delete(req.params.id)
 
-        const users = await User.all()
+        const users = await User.findAll()
 
         return res.render('admin/user/index', {
             users,
@@ -79,7 +79,7 @@ module.exports = {
         })
     },
     async list(req, res) {
-        let users = await User.all()
+        let users = await User.findAll()
 
         return res.render('admin/user/index', { users })
     }

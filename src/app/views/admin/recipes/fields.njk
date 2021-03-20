@@ -79,6 +79,6 @@
     <input type="text" name="information" value="{{recipe.information}}">
 </div>
 
-<button class="submit-button" type="submit">Submit</button>
+<button class="submit-button" type="submit" onclick="Validate.allFields(event)">Submit</button>
 
 {% include "admin/recipes/additem.njk" %}

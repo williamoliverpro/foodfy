@@ -2,10 +2,34 @@
 <div class="messages error">
     {{error}}
 </div>
+
+<script src="/lottie.min.js"></script>
+<script>
+    const element = document.querySelector('.messages.error')
+    lottie.loadAnimation({
+        container: element, // the dom element that will contain the animation
+        renderer: 'svg',
+        loop: false,
+        autoplay: true,
+        path: '/13640-failed.json'
+    }).setSpeed(2.5)
+</script>
 {%endif%}
 
 {%if success%}
 <div class="messages success">
     {{success}}
 </div>
+
+<script src="/lottie.min.js"></script>
+<script>
+    const element = document.querySelector('.messages.success')
+    lottie.loadAnimation({
+        container: element, // the dom element that will contain the animation
+        renderer: 'svg',
+        loop: false,
+        autoplay: true,
+        path: '/23595-check.json'
+    });
+</script>
 {%endif%}

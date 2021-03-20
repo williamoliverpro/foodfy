@@ -26,7 +26,6 @@ module.exports = {
     },
     async forgot(req, res) {
         const user = req.user
-        console.log(user)
 
         try {
             // um token para esse usuário
@@ -39,7 +38,7 @@ module.exports = {
             user.reset_token = token
             user.reset_token_expires = now
 
-            await User.update(user, user.id)
+            await User.update(user.id, user)
 
             // enviar um email com um link de recuperação de senha
             await mailer.sendMail({
@@ -63,7 +62,7 @@ module.exports = {
 
         } catch (err) {
             console.error(err)
-            return res.render("session/forgot-password", {
+            return res.render("admin/session/forgot-password", {
                 error: "Erro inesperado, tente novamente!"
             })
         }
@@ -80,7 +79,7 @@ module.exports = {
             const newPassword = await hash(password, 8)
 
             // atualiza o usuário
-            await User.updatePasswordReset(user.id, {
+            await User.update(user.id, {
                 password: newPassword,
                 reset_token: "",
                 reset_token_expires: "",

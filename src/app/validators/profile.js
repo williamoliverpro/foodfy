@@ -1,5 +1,4 @@
 const User = require('../models/User')
-const { compare } = require('bcryptjs')
 
 function checkAllFields(body) {
     const keys = Object.keys(body)
@@ -15,20 +14,18 @@ function checkAllFields(body) {
 }
 
 async function update(req, res, next) {
-    console.log(req.body)
-
     if (req.body.password == '') {
         req.body.password = undefined
     }
 
     const isFillAllFields = checkAllFields(req.body)
 
-    if(isFillAllFields){
+    if (isFillAllFields){
         return res.render("admin/profile/index", isFillAllFields)
     }
 
-    const user = await User.findOne(req.body.id)
-    const toCompareEmail = await User.findOneEmail(req.body.email)
+    const user = await User.find(req.body.id)
+    const toCompareEmail = await User.findOne({where: { email: req.body.email }})
 
     if (user.email != req.body.email && toCompareEmail) {
         return res.render('admin/profile/index', {

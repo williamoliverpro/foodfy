@@ -1,7 +1,12 @@
 const { date } = require("../../lib/utils")
 const db = require("../../config/db")
 
+const Base = require("./Base")
+
+Base.init({ table: 'chefs' })
+
 module.exports = {
+    ...Base,
     async index() {
         let results = await db.query(`SELECT chefs.*, files.name as file_name, files.path as file_path
         FROM chefs LEFT JOIN files on (chefs.file_id = files.id)
@@ -16,32 +21,6 @@ module.exports = {
 
         return results.rows
     },
-    create(data, file_id, callback) {
-        const query = `
-        INSERT INTO chefs(
-          name,
-          created_at,
-          file_id
-        ) VALUES ($1, $2, $3)
-        RETURNING id
-        `
-        const values = [
-            data.name,
-            date(Date.now()).iso,
-            file_id,
-        ]
-
-        db.query(query, values, function (err, results) {
-            if (err) throw `Database error ${err}`
-
-            callback(results.rows[0])
-        })
-    },
-    async find(id) {
-        let results = await db.query(`SELECT * FROM chefs WHERE id = $1`, [id])
-
-        return results.rows[0]
-    },
     findBy(filter, callback) {
         db.query(`SELECT teachers.*, COUNT(students) AS total_students
         FROM teachers LEFT JOIN students ON (teachers.id = students.teacher_id)
@@ -54,25 +33,6 @@ module.exports = {
 
             callback(results.rows)
         })
-    },
-    update(data, file_id) {
-        const query = `
-        UPDATE chefs set
-        name = $1,
-        file_id = $2
-        WHERE id = $3
-        `
-
-        const values = [
-            data.name,
-            file_id,
-            data.id
-        ]
-
-        db.query(query, values)
-    },
-    delete(id, callback) {
-        db.query(`DELETE FROM chefs WHERE id = $1`, [id])
     },
     paginate(params) {
         const { filter, limit, offset, callback } = params
@@ -117,13 +77,6 @@ module.exports = {
         WHERE recipes.chef_id = $1`, [id])
 
         return results.rows
-    },
-    async files(id) {
-        const results = await db.query(`
-            SELECT * FROM files WHERE id = $1
-        `, [id])
-
-        return results.rows[0]
     },
     async allFiles() {
         const results = await db.query(`SELECT files.*

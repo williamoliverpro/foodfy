@@ -17,7 +17,7 @@ function checkAllFields(body) {
 async function login(req, res, next) {
     let isCheckAllFields = checkAllFields(req.body)
 
-    if(isCheckAllFields) {
+    if (isCheckAllFields) {
         return res.render('admin/session/login', {
             user: req.body,
             error: 'Complete all fields'
@@ -26,7 +26,7 @@ async function login(req, res, next) {
 
     const { email, password } = req.body
 
-    const user = await User.findOneEmail(email)
+    const user = await User.findOne({where: { email }})
 
     if (!user) return res.render("admin/session/login", {
         user: req.body,
@@ -49,7 +49,7 @@ async function forgot(req, res, next) {
     const { email } = req.body
 
     try {
-        let user = await User.findOneEmail(email)
+        let user = await User.findOne({where: { email }})
 
         if (!user) return res.render("admin/session/forgot-password", {
             user: req.body,
@@ -67,7 +67,7 @@ async function forgot(req, res, next) {
 async function reset(req, res, next) {
     const { email, password, token, passwordRepeat } = req.body
 
-    const user = await User.findOneEmail(email)
+    const user = await User.findOne({where: { email }})
 
     if (!user) return res.render("admin/session/reset-password", {
         user: req.body,
@@ -75,21 +75,18 @@ async function reset(req, res, next) {
         error: "Usuário não cadastrado!"
     })
 
-    // ver se o a senha bate
     if (password != passwordRepeat) return res.render('admin/session/reset-password', {
         user: req.body,
         token,
         error: 'A senha e a repetição da senha estão incorretas.'
     })
 
-    // verificar se o token bate
     if (token != user.reset_token) return res.render('admin/session/reset-password', {
         user: req.body,
         token,
         error: 'Token inválido! Solicite uma nova recuperação de senha.'
     })
 
-    // verificar se o token não expirou
     let now = new Date()
     now = now.setHours(now.getHours())
 
