@@ -17,7 +17,7 @@ Foodfy
 
 [//]: # (Add your gifs/images here:)
 
-### Web
+### Screenshots
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
   <img alt="Main page" title="main-page" src="https://github.com/williamoliverpro/foodfyscreenshots/blob/main/foodfyuser.png" width="400px">
