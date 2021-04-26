@@ -31,7 +31,7 @@ Foodfy
 [//]: # (Add the features of your project here:)
 This app features all the latest tools and practices in mobile development!
 
-- ⚛️ **Nunjucks** — A templating engine for JavaScript.
+- ⚙️ **Nunjucks** — A templating engine for JavaScript.
 - 💹 **Express** — Minimalist web framework for Node.js.
 - 🐘 **Postgres** — Is a powerful, open source object-relational database system.
 
