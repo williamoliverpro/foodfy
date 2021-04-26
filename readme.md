@@ -20,7 +20,7 @@ Foodfy
 ### Screenshots
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
-  <img alt="Main page" title="main-page" src="https://github.com/williamoliverpro/foodfyscreenshots/blob/main/foodfyuser.png" width="400px">
+  <img alt="Main page" title="main-page" src="https://github.com/williamoliverpro/foodfyscreenshots/blob/main/foodfymainpage.png" width="400px">
 
   <img alt="admin page" title="#admin" src="https://github.com/williamoliverpro/foodfyscreenshots/blob/main/foodfyadmin.png" width="400px">
 </p>
