@@ -1,7 +1,7 @@
 
 <h1 align="center">
 <br>
-  <img src="./src/public/assets/logo-light.png" alt="Logo Foodfy" width="120">
+  <img src="./public/assets/logo-light.png" alt="Logo Foodfy" width="120">
 <br>
 <br>
 Foodfy
