@@ -23,4 +23,4 @@ nunjucks.configure("src/app/views", {
     autoescape: false
 })
 
-app.listen(5000)
+app.listen(process.env.PORT || 5000)
