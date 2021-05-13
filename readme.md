@@ -20,16 +20,16 @@ Foodfy
 ### Screenshots
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
-  <img alt="Main page" title="main-page" src="https://github.com/williamoliverpro/foodfyscreenshots/blob/main/foodfymain.png" width="400px">
+  <img alt="Main page" title="main-page" src="https://github.com/williamoliverpro/screenshots/blob/main/foodfy/foodfymain.png" width="400px">
 
-  <img alt="admin page" title="#admin" src="https://github.com/williamoliverpro/foodfyscreenshots/blob/main/foodfyadmin.png" width="400px">
+  <img alt="admin page" title="#admin" src="https://github.com/williamoliverpro/screenshots/blob/main/foodfy/foodfyadmin.png" width="400px">
 </p>
 
 <hr />
 
 ## Features
 [//]: # (Add the features of your project here:)
-This app features all the latest tools and practices in mobile development!
+This app features all the latest tools in web development!
 
 - ⚙️ **Nunjucks** — A templating engine for JavaScript.
 - 💹 **Express** — Minimalist web framework for Node.js.
